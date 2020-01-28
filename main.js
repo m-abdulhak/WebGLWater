@@ -280,10 +280,12 @@ window.onload = function() {
 
   function draw() {
     // Change the light direction to the camera look vector when the L key is pressed
-    if (GL.keys.L) {
-      renderer.lightDir = GL.Vector.fromAngles((90 - angleY) * Math.PI / 180, -angleX * Math.PI / 180);
-      if (paused) renderer.updateCaustics(water);
-    }
+    //if (GL.keys.L) {
+    //  renderer.lightDir = GL.Vector.fromAngles((90 - angleY) * Math.PI / 180, -angleX * Math.PI / 180);
+    //  if (paused) renderer.updateCaustics(water);
+    //}
+    // Change light direction according to current camera position 
+    renderer.lightDir = GL.Vector.fromAngles((90 - angleY) * Math.PI / 180, -angleX * Math.PI / 180);
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.loadIdentity();
