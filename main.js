@@ -241,7 +241,29 @@ window.onload = function() {
       // Bounce off the bottom
       if (center.y < radius - 1) {
         center.y = radius - 1;
-        velocity.y = Math.abs(velocity.y) * 0.7;
+        velocity.y = Math.abs(velocity.y) * 5;
+        velocity.x = velocity.x + Math.random(0,10)-5;
+        velocity.z = velocity.z + Math.random(0,10)-5;
+      }
+      if (center.y + radius>2) {
+        center.y = 2-radius;
+        velocity.y = -velocity.y*4;
+      }
+      if(center.x+radius>1){
+        center.x = 1-radius;
+        velocity.x = -velocity.x;
+      }
+      if(center.x-radius<-1){
+        center.x = -1+radius;
+        velocity.x = -velocity.x;
+      }
+      if(center.z+radius>1){
+        center.z = 1-radius;
+        velocity.z = -velocity.z;
+      }
+      if(center.z-radius<-1){
+        center.z = -1+radius;
+        velocity.z = -velocity.z;
       }
     }
 
