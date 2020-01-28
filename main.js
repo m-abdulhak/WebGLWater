@@ -219,7 +219,11 @@ window.onload = function() {
   document.onkeydown = function(e) {
     if (e.which == ' '.charCodeAt(0)) paused = !paused;
     else if (e.which == 'G'.charCodeAt(0)) useSpherePhysics = !useSpherePhysics;
-    else if (e.which == 'L'.charCodeAt(0) && paused) draw();
+    else if (e.which == 'L'.charCodeAt(0) && paused) draw();      
+    else if (e.which == 'R'.charCodeAt(0)){
+      center = oldCenter = new GL.Vector(0, 0.5, 0);
+      velocity = new GL.Vector(Math.random(0,2)-1,-1,Math.random(0,2)-1);
+    };
   };
 
   var frame = 0;
