@@ -28,11 +28,11 @@ var gl = GL.create();
 var water;
 var cubemap;
 var renderer;
-var angleX = -25;
-var angleY = -200.5;
+var angleX = -35;
+var angleY = 45;
 
 // Sphere physics info
-var useSpherePhysics = false;
+var useSpherePhysics = true;
 var center;
 var oldCenter;
 var velocity;
@@ -54,7 +54,7 @@ window.onload = function() {
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.matrixMode(gl.PROJECTION);
     gl.loadIdentity();
-    gl.perspective(45, gl.canvas.width / gl.canvas.height, 0.01, 100);
+    gl.perspective(60, gl.canvas.width / gl.canvas.height, 0.01, 100);
     gl.matrixMode(gl.MODELVIEW);
     draw();
   }
@@ -77,10 +77,10 @@ window.onload = function() {
     throw new Error('Rendering to floating-point textures is required but not supported');
   }
 
-  center = oldCenter = new GL.Vector(-0.4, -0.75, 0.2);
-  velocity = new GL.Vector();
-  gravity = new GL.Vector(0, -4, 0);
-  radius = 0.25;
+  center = oldCenter = new GL.Vector(0.0, 0.5, 0.0);
+  velocity = new GL.Vector(1,-1,1);
+  gravity = new GL.Vector(0, -5, 0);
+  radius = 0.35;
 
   for (var i = 0; i < 20; i++) {
     water.addDrop(Math.random() * 2 - 1, Math.random() * 2 - 1, 0.03, (i & 1) ? 0.01 : -0.01);
