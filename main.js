@@ -246,6 +246,12 @@ window.onload = function() {
     else if (e.which == 'H'.charCodeAt(0)){
       hideCeiling = !hideCeiling;
       renderer = new Renderer();
+    }
+    else if (e.which == '0'.charCodeAt(0)){
+      radius = Math.min(1,radius+.01);
+    }
+    else if (e.which == '9'.charCodeAt(0)){
+      radius = Math.max(.01,radius-.01);
     };
   };
 
