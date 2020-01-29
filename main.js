@@ -223,6 +223,24 @@ window.onload = function() {
     else if (e.which == 'R'.charCodeAt(0)){
       center = oldCenter = new GL.Vector(0, 1.5, 0);
       velocity = new GL.Vector(Math.random(0,2)-1,-1,Math.random(0,2)-1);
+    }
+    else if (e.which == 'Z'.charCodeAt(0)){
+      cameraZ = Math.min(0,cameraZ+0.25);
+    }
+    else if (e.which == 'X'.charCodeAt(0)){
+      cameraZ = Math.min(0,cameraZ-0.25);
+    }
+    else if (e.which == 'A'.charCodeAt(0)){
+      cameraX = cameraX+0.25;
+    }
+    else if (e.which == 'D'.charCodeAt(0)){
+      cameraX = cameraX-0.25;
+    }
+    else if (e.which == 'S'.charCodeAt(0)){
+      cameraY = cameraY+0.25;
+    }
+    else if (e.which == 'W'.charCodeAt(0)){
+      cameraY = cameraY-0.25;
     };
   };
 
@@ -282,6 +300,10 @@ window.onload = function() {
     renderer.updateCaustics(water);
   }
 
+  var cameraX = 0;
+  var cameraY = 0;
+  var cameraZ = -4;
+
   function draw() {
     // Change the light direction to the camera look vector when the L key is pressed
     //if (GL.keys.L) {
@@ -293,7 +315,7 @@ window.onload = function() {
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.loadIdentity();
-    gl.translate(0, 0, -4);
+    gl.translate(cameraX, cameraY, cameraZ);
     gl.rotate(-angleX, 1, 0, 0);
     gl.rotate(-angleY, 0, 1, 0);
     gl.translate(0, 0.5, 0);
