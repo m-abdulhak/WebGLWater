@@ -14,6 +14,8 @@ var helperFunctions = '\
   const float poolHeight = 1.0;\
   uniform vec3 light;\
   uniform vec3 sphereCenter;\
+  uniform vec3 sphereColor;\
+  uniform bool sphereColorAuto;\
   uniform float sphereRadius;\
   uniform sampler2D tiles;\
   uniform sampler2D causticTex;\
@@ -43,7 +45,10 @@ var helperFunctions = '\
   }\
   \
   vec3 getSphereColor(vec3 point) {\
-    vec3 color = vec3(0.5);\
+    vec3 color = sphereColor;\
+    if(sphereColorAuto == true) {\
+      color = sphereCenter;\
+    }\
     \
     /* ambient occlusion with walls */\
     color *= 1.0 - 0.9 / pow((1.0 + sphereRadius - abs(point.x)) / sphereRadius, 3.0);\
@@ -175,7 +180,7 @@ function Renderer() {
         ' : /* above water */ '\
           vec3 reflectedRay = reflect(incomingRay, normal);\
           vec3 refractedRay = refract(incomingRay, normal, IOR_AIR / IOR_WATER);\
-          float fresnel = mix(0.25, 1.0, pow(1.0 - dot(normal, -incomingRay), 3.0));\
+          float fresnel = mix(0.5, 1.0, pow(1.0 - dot(normal, -incomingRay), 3.0));\
           \
           vec3 reflectedColor = getSurfaceRayColor(position, reflectedRay, abovewaterColor);\
           vec3 refractedColor = getSurfaceRayColor(position, refractedRay, abovewaterColor);\
@@ -226,6 +231,8 @@ function Renderer() {
   ');
   this.sphereCenter = new GL.Vector();
   this.sphereRadius = 0;
+  this.sphereColor = new GL.Vector(255.0,0.0,0.0);
+  this.sphereColorAuto = true;
   var hasDerivatives = !!gl.getExtension('OES_standard_derivatives');
   this.causticsShader = new GL.Shader(helperFunctions + '\
     varying vec3 oldPos;\
@@ -334,7 +341,9 @@ Renderer.prototype.renderSphere = function() {
     water: 0,
     causticTex: 1,
     sphereCenter: this.sphereCenter,
-    sphereRadius: this.sphereRadius
+    sphereRadius: this.sphereRadius,
+    sphereColor: this.sphereColor,
+    sphereColorAuto: this.sphereColorAuto
   }).draw(this.sphereMesh);
 };
 

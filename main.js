@@ -41,6 +41,27 @@ var radius;
 var paused = false;
 var hideCeiling = 1;
 
+var cameraX = 0;
+var cameraY = 0;
+var cameraZ = -4;
+var sphereColor = new GL.Vector(255.0, 128.0, 0.0);
+var sphereColorAuto = true;
+
+function changeColor() {
+  var newVal = document.getElementById('ball-color').value;
+  if(newVal == "auto"){
+    sphereColorAuto = true;
+  } else{
+    sphereColorAuto = false;
+    var newColor = hexToRgb(newVal);
+    sphereColor = new GL.Vector(newColor[0], newColor[1], newColor[2]);
+  }
+}
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? [parseFloat(parseInt(result[1], 16)),parseFloat(parseInt(result[2], 16)),parseFloat(parseInt(result[3], 16))]: null;
+}
+
 window.onload = function() {
   var ratio = window.devicePixelRatio || 1;
   var help = document.getElementById('help');
@@ -324,10 +345,6 @@ window.onload = function() {
     renderer.updateCaustics(water);
   }
 
-  var cameraX = 0;
-  var cameraY = 0;
-  var cameraZ = -4;
-
   function draw() {
     // Change the light direction to the camera look vector when the L key is pressed
     //if (GL.keys.L) {
@@ -347,6 +364,9 @@ window.onload = function() {
     gl.enable(gl.DEPTH_TEST);
     renderer.sphereCenter = center;
     renderer.sphereRadius = radius;
+    //console.log("sphereColor: ", sphereColor);
+    renderer.sphereColor = (typeof(sphereColor)!=undefined&& sphereColor)?sphereColor:new GL.Vector(255.0, 0.0, 0.0);
+    renderer.sphereColorAuto = sphereColorAuto | false;
     renderer.renderCube();
     renderer.renderWater(water, cubemap);
     renderer.renderSphere();
