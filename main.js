@@ -77,7 +77,7 @@ window.onload = function() {
     throw new Error('Rendering to floating-point textures is required but not supported');
   }
 
-  center = oldCenter = new GL.Vector(0.0, 0.5, 0.0);
+  center = oldCenter = new GL.Vector(0.0, 1.5, 0.0);
   velocity = new GL.Vector(1,-1,1);
   gravity = new GL.Vector(0, -5, 0);
   radius = 0.35;
@@ -156,7 +156,7 @@ window.onload = function() {
         var nextHit = tracer.eye.add(ray.multiply(t));
         center = center.add(nextHit.subtract(prevHit));
         center.x = Math.max(radius - 1, Math.min(1 - radius, center.x));
-        center.y = Math.max(radius - 1, Math.min(10, center.y));
+        center.y = Math.max(radius - 1, Math.min(2 - radius, center.y));
         center.z = Math.max(radius - 1, Math.min(1 - radius, center.z));
         prevHit = nextHit;
         if (paused) renderer.updateCaustics(water);
@@ -221,7 +221,7 @@ window.onload = function() {
     else if (e.which == 'G'.charCodeAt(0)) useSpherePhysics = !useSpherePhysics;
     else if (e.which == 'L'.charCodeAt(0) && paused) draw();      
     else if (e.which == 'R'.charCodeAt(0)){
-      center = oldCenter = new GL.Vector(0, 0.5, 0);
+      center = oldCenter = new GL.Vector(0, 1.5, 0);
       velocity = new GL.Vector(Math.random(0,2)-1,-1,Math.random(0,2)-1);
     };
   };
