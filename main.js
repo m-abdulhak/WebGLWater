@@ -252,6 +252,16 @@ window.onload = function() {
     }
     else if (e.which == '9'.charCodeAt(0)){
       radius = Math.max(.01,radius-.01);
+    }
+    else if (e.which == 'P'.charCodeAt(0)){
+      velocity.x = velocity.x*10;
+      velocity.y = velocity.y*10;
+      velocity.z = velocity.z*10;
+    }
+    else if (e.which == 'O'.charCodeAt(0)){
+      velocity.x = velocity.x/10;
+      velocity.y = velocity.y/10;
+      velocity.z = velocity.z/10;
     };
   };
 
@@ -298,6 +308,9 @@ window.onload = function() {
         center.z = -1+radius;
         velocity.z = -velocity.z;
       }
+      velocity.x = Math.min(300,velocity.x);
+      velocity.y = Math.min(300,velocity.y);
+      velocity.z = Math.min(300,velocity.z);
     }
 
     // Displace water around the sphere
