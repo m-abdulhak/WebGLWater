@@ -39,6 +39,7 @@ var velocity;
 var gravity;
 var radius;
 var paused = false;
+var hideCeiling = 1;
 
 window.onload = function() {
   var ratio = window.devicePixelRatio || 1;
@@ -241,6 +242,10 @@ window.onload = function() {
     }
     else if (e.which == 'W'.charCodeAt(0)){
       cameraY = cameraY-0.25;
+    }
+    else if (e.which == 'H'.charCodeAt(0)){
+      hideCeiling = !hideCeiling;
+      renderer = new Renderer();
     };
   };
 

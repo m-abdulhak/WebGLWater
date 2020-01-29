@@ -203,7 +203,9 @@ function Renderer() {
     }\
   ');
   this.cubeMesh = GL.Mesh.cube();
-  this.cubeMesh.triangles.splice(4, 2);
+  //console.log("hideCeiling:",hideCeiling);
+  if(hideCeiling)
+    this.cubeMesh.triangles.splice(4, 2);
   this.cubeMesh.compile();
   this.cubeShader = new GL.Shader(helperFunctions + '\
     varying vec3 position;\
