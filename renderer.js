@@ -9,8 +9,8 @@
 var helperFunctions = '\
   const float IOR_AIR = 1.0;\
   const float IOR_WATER = 1.333;\
-  const vec3 abovewaterColor = vec3(0.25, 1.0, 1.25);\
-  const vec3 underwaterColor = vec3(0.4, 0.9, 1.0);\
+  uniform vec3 abovewaterColor;\
+  uniform vec3 underwaterColor;\
   const float poolHeight = 1.0;\
   uniform vec3 light;\
   uniform vec3 sphereCenter;\
@@ -233,6 +233,8 @@ function Renderer() {
   this.sphereRadius = 0;
   this.sphereColor = new GL.Vector(255.0,0.0,0.0);
   this.sphereColorAuto = true;
+  this.abovewaterColor = new GL.Vector(0.25, 1.0, 1.25);
+  this.underwaterColor = new GL.Vector(0.4, 0.9, 1.0);
   var hasDerivatives = !!gl.getExtension('OES_standard_derivatives');
   this.causticsShader = new GL.Shader(helperFunctions + '\
     varying vec3 oldPos;\
@@ -305,7 +307,11 @@ Renderer.prototype.updateCaustics = function(water) {
       light: this_.lightDir,
       water: 0,
       sphereCenter: this_.sphereCenter,
-      sphereRadius: this_.sphereRadius
+      sphereRadius: this_.sphereRadius,
+      sphereColor: this.sphereColor,
+      sphereColorAuto: this.sphereColorAuto,
+      abovewaterColor: this.abovewaterColor,
+      underwaterColor: this.underwaterColor
     }).draw(this_.waterMesh);
   });
 };
@@ -327,7 +333,11 @@ Renderer.prototype.renderWater = function(water, sky) {
       causticTex: 3,
       eye: tracer.eye,
       sphereCenter: this.sphereCenter,
-      sphereRadius: this.sphereRadius
+      sphereRadius: this.sphereRadius,
+      sphereColor: this.sphereColor,
+      sphereColorAuto: this.sphereColorAuto,
+      abovewaterColor: this.abovewaterColor,
+      underwaterColor: this.underwaterColor
     }).draw(this.waterMesh);
   }
   gl.disable(gl.CULL_FACE);
@@ -343,7 +353,9 @@ Renderer.prototype.renderSphere = function() {
     sphereCenter: this.sphereCenter,
     sphereRadius: this.sphereRadius,
     sphereColor: this.sphereColor,
-    sphereColorAuto: this.sphereColorAuto
+    sphereColorAuto: this.sphereColorAuto,
+    abovewaterColor: this.abovewaterColor,
+    underwaterColor: this.underwaterColor
   }).draw(this.sphereMesh);
 };
 
@@ -358,7 +370,11 @@ Renderer.prototype.renderCube = function() {
     tiles: 1,
     causticTex: 2,
     sphereCenter: this.sphereCenter,
-    sphereRadius: this.sphereRadius
+    sphereRadius: this.sphereRadius,
+    sphereColor: this.sphereColor,
+    sphereColorAuto: this.sphereColorAuto,
+    abovewaterColor: this.abovewaterColor,
+    underwaterColor: this.underwaterColor
   }).draw(this.cubeMesh);
   gl.disable(gl.CULL_FACE);
 };

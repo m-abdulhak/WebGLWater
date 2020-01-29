@@ -46,6 +46,8 @@ var cameraY = 0;
 var cameraZ = -4;
 var sphereColor = new GL.Vector(255.0, 128.0, 0.0);
 var sphereColorAuto = true;
+var abovewaterColor = new GL.Vector(2.0, 2.0, 2.0);
+var underwaterColor = new GL.Vector(2.0, 2.0, 2.0);
 
 function changeColor() {
   var newVal = document.getElementById('ball-color').value;
@@ -55,6 +57,18 @@ function changeColor() {
     sphereColorAuto = false;
     var newColor = hexToRgb(newVal);
     sphereColor = new GL.Vector(newColor[0], newColor[1], newColor[2]);
+  }
+  var newWaterVal = document.getElementById('water-color').value;
+  if(newWaterVal == "auto"){
+    abovewaterColor = new GL.Vector(0.25, 1.0, 1.25);
+    underwaterColor = new GL.Vector(0.4, 0.9, 1.0);
+  } else if(newWaterVal == "black"){
+    abovewaterColor = new GL.Vector(0.1, .1, .1);
+    underwaterColor = new GL.Vector(0.3, 0.3, .3);
+  } else{
+    var newWaterColor = hexToRgb(newWaterVal);
+    abovewaterColor = new GL.Vector(newWaterColor[0], newWaterColor[1], newWaterColor[2]);
+    underwaterColor = new GL.Vector(newWaterColor[0]/2, newWaterColor[1]/2, newWaterColor[2]/2);
   }
 }
 function hexToRgb(hex) {
@@ -364,8 +378,9 @@ window.onload = function() {
     gl.enable(gl.DEPTH_TEST);
     renderer.sphereCenter = center;
     renderer.sphereRadius = radius;
-    //console.log("sphereColor: ", sphereColor);
     renderer.sphereColor = (typeof(sphereColor)!=undefined&& sphereColor)?sphereColor:new GL.Vector(255.0, 0.0, 0.0);
+    renderer.abovewaterColor = (typeof(abovewaterColor)!=undefined&& abovewaterColor)?abovewaterColor:new GL.Vector(0.25, 1.0, 1.25);
+    renderer.underwaterColor = (typeof(underwaterColor)!=undefined&& underwaterColor)?underwaterColor:new GL.Vector(0.4, 0.9, 1.0);
     renderer.sphereColorAuto = sphereColorAuto | false;
     renderer.renderCube();
     renderer.renderWater(water, cubemap);
