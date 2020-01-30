@@ -6,6 +6,12 @@
  * Released under the MIT license
  */
 
+ /*
+ * Modified by Mohammed Abdullhak
+ * All modifications can be found under comments starting with "Modified for:"
+ * All modifications can be seen @ https://github.com/m-abdulhak/WebGLWater
+ */
+
 function text2html(text) {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
 }
@@ -24,6 +30,7 @@ function handleError(text) {
 
 window.onerror = handleError;
 
+// Modified for: changing starting camera angles
 var gl = GL.create();
 var water;
 var cubemap;
@@ -32,6 +39,7 @@ var angleX = -35;
 var angleY = 45;
 
 // Sphere physics info
+// Modified for: enabling physics by default
 var useSpherePhysics = true;
 var center;
 var oldCenter;
@@ -39,16 +47,23 @@ var velocity;
 var gravity;
 var radius;
 var paused = false;
+// Modified for: Add option to show/hide ceiling
 var hideCeiling = 1;
 
+
+// Modified for: Add camera position and zoom level control keys; added variabled for camera positions.
 var cameraX = 0;
 var cameraY = 0;
 var cameraZ = -4;
+// Modified for: Add option to change ball color; added new variables to store ball color options
 var sphereColor = new GL.Vector(255.0, 128.0, 0.0);
 var sphereColorAuto = true;
+// Modified for: Add option to change water color; added new variables to store water color options
 var abovewaterColor = new GL.Vector(2.0, 2.0, 2.0);
 var underwaterColor = new GL.Vector(2.0, 2.0, 2.0);
 
+// Modified for: Add option to change ball color; added new function to change color
+// Modified for: Add option to change water color; added new function to change color
 function changeColor() {
   var newVal = document.getElementById('ball-color').value;
   if(newVal == "auto"){
@@ -71,6 +86,8 @@ function changeColor() {
     underwaterColor = new GL.Vector(newWaterColor[0]/2, newWaterColor[1]/2, newWaterColor[2]/2);
   }
 }
+
+// Modified for: Add option to change ball and water color; added new function to convert from hex to float vector colors
 function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? [parseFloat(parseInt(result[1], 16)),parseFloat(parseInt(result[2], 16)),parseFloat(parseInt(result[3], 16))]: null;
@@ -90,6 +107,7 @@ window.onload = function() {
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.matrixMode(gl.PROJECTION);
     gl.loadIdentity();
+    // Modified for: Changing field of view
     gl.perspective(60, gl.canvas.width / gl.canvas.height, 0.01, 100);
     gl.matrixMode(gl.MODELVIEW);
     draw();
@@ -113,6 +131,7 @@ window.onload = function() {
     throw new Error('Rendering to floating-point textures is required but not supported');
   }
 
+  // Modified for: changing starting position and ball size
   center = oldCenter = new GL.Vector(0.0, 1.5, 0.0);
   velocity = new GL.Vector(1,-1,1);
   gravity = new GL.Vector(0, -5, 0);
@@ -192,6 +211,8 @@ window.onload = function() {
         var nextHit = tracer.eye.add(ray.multiply(t));
         center = center.add(nextHit.subtract(prevHit));
         center.x = Math.max(radius - 1, Math.min(1 - radius, center.x));
+        // Modified for: Add intersection test for sphere at pool height to prevent ball from
+        // going heigher than pool
         center.y = Math.max(radius - 1, Math.min(2 - radius, center.y));
         center.z = Math.max(radius - 1, Math.min(1 - radius, center.z));
         prevHit = nextHit;
@@ -255,11 +276,13 @@ window.onload = function() {
   document.onkeydown = function(e) {
     if (e.which == ' '.charCodeAt(0)) paused = !paused;
     else if (e.which == 'G'.charCodeAt(0)) useSpherePhysics = !useSpherePhysics;
-    else if (e.which == 'L'.charCodeAt(0) && paused) draw();      
+    else if (e.which == 'L'.charCodeAt(0) && paused) draw();
+    // Modified for: Add interaction, pressing R key resets sphere position and velocity      
     else if (e.which == 'R'.charCodeAt(0)){
       center = oldCenter = new GL.Vector(0, 1.5, 0);
       velocity = new GL.Vector(Math.random(0,2)-1,-1,Math.random(0,2)-1);
     }
+    // Modified for: Add camera position and zoom level control keys.
     else if (e.which == 'Z'.charCodeAt(0)){
       cameraZ = Math.min(0,cameraZ+0.25);
     }
@@ -278,21 +301,26 @@ window.onload = function() {
     else if (e.which == 'W'.charCodeAt(0)){
       cameraY = cameraY-0.25;
     }
+    // Modified for: Add option to show/hide ceiling
     else if (e.which == 'H'.charCodeAt(0)){
       hideCeiling = !hideCeiling;
       renderer = new Renderer();
     }
+    // Modified for: Add option to change ball size
     else if (e.which == '0'.charCodeAt(0)){
       radius = Math.min(1,radius+.01);
     }
+    // Modified for: Add option to change ball size
     else if (e.which == '9'.charCodeAt(0)){
       radius = Math.max(.01,radius-.01);
     }
+    // Modified for: Add option to change ball speed
     else if (e.which == 'P'.charCodeAt(0)){
       velocity.x = velocity.x*10;
       velocity.y = velocity.y*10;
       velocity.z = velocity.z*10;
     }
+    // Modified for: Add option to change ball speed
     else if (e.which == 'O'.charCodeAt(0)){
       velocity.x = velocity.x/10;
       velocity.y = velocity.y/10;
@@ -317,6 +345,7 @@ window.onload = function() {
       center = center.add(velocity.multiply(seconds));
 
       // Bounce off the bottom
+      // Modified for: changing physiscs behavior and adding bouncing off walls and ceiling
       if (center.y < radius - 1) {
         center.y = radius - 1;
         velocity.y = Math.abs(velocity.y) * 5;
@@ -343,6 +372,7 @@ window.onload = function() {
         center.z = -1+radius;
         velocity.z = -velocity.z;
       }
+      // Modified for: Add option to change ball speed
       velocity.x = Math.min(300,velocity.x);
       velocity.y = Math.min(300,velocity.y);
       velocity.z = Math.min(300,velocity.z);
@@ -364,12 +394,13 @@ window.onload = function() {
     //if (GL.keys.L) {
     //  renderer.lightDir = GL.Vector.fromAngles((90 - angleY) * Math.PI / 180, -angleX * Math.PI / 180);
     //  if (paused) renderer.updateCaustics(water);
-    //}
-    // Change light direction according to current camera position 
+    //} 
+    // Modified for: Change light direction according to current camera position 
     renderer.lightDir = GL.Vector.fromAngles((90 - angleY) * Math.PI / 180, -angleX * Math.PI / 180);
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.loadIdentity();
+    // Modified for: Add camera position and zoom level control keys.
     gl.translate(cameraX, cameraY, cameraZ);
     gl.rotate(-angleX, 1, 0, 0);
     gl.rotate(-angleY, 0, 1, 0);
@@ -378,10 +409,12 @@ window.onload = function() {
     gl.enable(gl.DEPTH_TEST);
     renderer.sphereCenter = center;
     renderer.sphereRadius = radius;
+    // Modified for: Add option to change ball color; pass color options variables to renderer
     renderer.sphereColor = (typeof(sphereColor)!=undefined&& sphereColor)?sphereColor:new GL.Vector(255.0, 0.0, 0.0);
+    renderer.sphereColorAuto = sphereColorAuto | false;
+    // Modified for: Add option to change water color; pass color options variables to renderer
     renderer.abovewaterColor = (typeof(abovewaterColor)!=undefined&& abovewaterColor)?abovewaterColor:new GL.Vector(0.25, 1.0, 1.25);
     renderer.underwaterColor = (typeof(underwaterColor)!=undefined&& underwaterColor)?underwaterColor:new GL.Vector(0.4, 0.9, 1.0);
-    renderer.sphereColorAuto = sphereColorAuto | false;
     renderer.renderCube();
     renderer.renderWater(water, cubemap);
     renderer.renderSphere();

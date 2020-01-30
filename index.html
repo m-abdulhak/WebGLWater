@@ -5,6 +5,13 @@ http://madebyevan.com/webgl-water/
 Copyright 2011 Evan Wallace
 Released under the MIT license
 -->
+<!-- 
+ /*
+ * Modified by Mohammed Abdullhak
+ * All modifications can be found under comments starting with "Modified for:"
+ * All modifications can be seen @ https://github.com/m-abdulhak/WebGLWater
+ */
+-->
 
 <!DOCTYPE html>
 <html><head>
@@ -45,13 +52,20 @@ Released under the MIT license
       <li>Press SPACEBAR to pause and unpause</li>
       <li>Drag the sphere to move it around</li>
       <li>Press the G key to toggle gravity</li>
+      <!-- Modified for: Add interaction, pressing R key resets sphere position and velocity -->
       <li style="color: green;">Press the R key to Reset sphere position and velocity</li>
+      <!-- Modified for: Add camera position control keys. -->
       <li style="color: green;">Control Camera position with W,A,S,D keys</li>
+      <!-- Modified for: Add camera zoom level control keys. -->
       <li style="color: green;">Control Camera zoom level with Z,X keys</li>
+      <!-- Modified for: Add option to show/hide ceiling -->
       <li style="color: green;">Show/Hide ceiling with H key</li>
+      <!-- Modified for: Add option to change ball size -->
       <li style="color: green;">Change ball size with 9,0 keys</li>
+      <!-- Modified for: Add option to change ball speed -->
       <li style="color: green;">Change ball speed with P,O keys</li>
       <br>
+      <!-- Modified for: Add option to change ball color -->
       <li style="color: green;">Select ball color: 
         <select id="ball-color" onchange="changeColor()">
           <option value="auto">Auto</option>
@@ -63,6 +77,7 @@ Released under the MIT license
         </select>
       </li>
       <br>
+      <!-- Modified for: Add option to change water color -->
       <li style="color: green;">Select water color: 
         <select id="water-color" onchange="changeColor()">
           <option value="auto">Auto</option>

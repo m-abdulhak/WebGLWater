@@ -6,6 +6,13 @@
  * Released under the MIT license
  */
 
+ /*
+ * Modified by Mohammed Abdullhak
+ * All modifications can be found under comments starting with "Modified for:"
+ * All modifications can be seen @ https://github.com/m-abdulhak/WebGLWater
+ */
+
+// Many changes were applied to this function, detailed changes can be seen from git commits
 var helperFunctions = '\
   const float IOR_AIR = 1.0;\
   const float IOR_WATER = 1.333;\
@@ -107,6 +114,13 @@ var helperFunctions = '\
   }\
 ';
 
+// Modified for: Change pool walls height
+// Modified for: Add option to show/hide ceiling
+// Modified for: Add option to change ball color; create new color options uniform variables in shader 
+// Modified for: Add option to change ball color; if auto option: set color from ball position else set ball color same as selected option
+// Modified for: change water reflection level
+// Modified for: Add option to change water color; create new color options uniform variables in shader 
+// Modified for: Add option to change water color; set water color same as selected option
 function Renderer() {
   this.tileTexture = GL.Texture.fromImage(document.getElementById('tiles'), {
     minFilter: gl.LINEAR_MIPMAP_LINEAR,
@@ -208,6 +222,7 @@ function Renderer() {
     }\
   ');
   this.cubeMesh = GL.Mesh.cube();
+  // Modified for: Add option to show/hide ceiling
   //console.log("hideCeiling:",hideCeiling);
   if(hideCeiling)
     this.cubeMesh.triangles.splice(4, 2);
@@ -231,6 +246,7 @@ function Renderer() {
   ');
   this.sphereCenter = new GL.Vector();
   this.sphereRadius = 0;
+  // Modified for: Add option to change ball color; initialize variables
   this.sphereColor = new GL.Vector(255.0,0.0,0.0);
   this.sphereColorAuto = true;
   this.abovewaterColor = new GL.Vector(0.25, 1.0, 1.25);
@@ -308,8 +324,10 @@ Renderer.prototype.updateCaustics = function(water) {
       water: 0,
       sphereCenter: this_.sphereCenter,
       sphereRadius: this_.sphereRadius,
+      // Modified for: Add option to change ball color; pass color options variables to renderer
       sphereColor: this.sphereColor,
       sphereColorAuto: this.sphereColorAuto,
+      // Modified for: Add option to change water color; pass color options variables to renderer
       abovewaterColor: this.abovewaterColor,
       underwaterColor: this.underwaterColor
     }).draw(this_.waterMesh);
@@ -334,8 +352,10 @@ Renderer.prototype.renderWater = function(water, sky) {
       eye: tracer.eye,
       sphereCenter: this.sphereCenter,
       sphereRadius: this.sphereRadius,
+      // Modified for: Add option to change ball color; pass color options variables to renderer
       sphereColor: this.sphereColor,
       sphereColorAuto: this.sphereColorAuto,
+      // Modified for: Add option to change water color; pass color options variables to renderer
       abovewaterColor: this.abovewaterColor,
       underwaterColor: this.underwaterColor
     }).draw(this.waterMesh);
@@ -352,8 +372,10 @@ Renderer.prototype.renderSphere = function() {
     causticTex: 1,
     sphereCenter: this.sphereCenter,
     sphereRadius: this.sphereRadius,
+    // Modified for: Add option to change ball color; pass color options variables to renderer
     sphereColor: this.sphereColor,
     sphereColorAuto: this.sphereColorAuto,
+      // Modified for: Add option to change water color; pass color options variables to renderer
     abovewaterColor: this.abovewaterColor,
     underwaterColor: this.underwaterColor
   }).draw(this.sphereMesh);
@@ -371,8 +393,10 @@ Renderer.prototype.renderCube = function() {
     causticTex: 2,
     sphereCenter: this.sphereCenter,
     sphereRadius: this.sphereRadius,
+    // Modified for: Add option to change ball color; pass color options variables to renderer
     sphereColor: this.sphereColor,
     sphereColorAuto: this.sphereColorAuto,
+      // Modified for: Add option to change water color; pass color options variables to renderer
     abovewaterColor: this.abovewaterColor,
     underwaterColor: this.underwaterColor
   }).draw(this.cubeMesh);
