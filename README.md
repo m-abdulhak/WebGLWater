@@ -19,4 +19,5 @@ http://madebyevan.com/webgl-water/
 - Change user interaction logic to handle new option keys events such as pressing R key resets sphere position and velocity
 - Change HTML UI to show new options to allow users to dynamically change some options such as: ball size, ball speed, ball color, water color (New options shown in green)
 
-# COMP-6909 Fundamentals of Computer Graphics - Memorial Univeristy (Winter 2020)
+#
+COMP-6909 Fundamentals of Computer Graphics - Memorial Univeristy (Winter 2020)
