@@ -5,6 +5,7 @@ http://madebyevan.com/webgl-water/
 
 # Modified by Mohammed Abdullhak:
 
+- Demo @ https://m-abdulhak.github.io/WebGLWater/ 
 - All modifications can be found under comments starting with "Modified for:"
 - All modifications can be seen @ https://github.com/m-abdulhak/WebGLWater where detailed changes to the code can be seen from git commits
 
